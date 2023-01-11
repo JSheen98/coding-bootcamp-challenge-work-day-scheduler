@@ -1,24 +1,14 @@
+var past = $('.past')
+var present = $('.present')
+var future = $('.future')
+
+
 var dateDisplayEl = $('#currentDay')
-var rightNow = dayjs().format('H') 
+var rightNow = dayjs().format('H')
 var timeBlockEl = $('.hour-9')
 var hour8El = $('#hour-8')
 var hour12El = $('#hour-12')
 var hour16El = $('#hour-16')
-
-hour8El = dayjs().hour(8).format('H')
-hour12El = dayjs().hour(12).format('H')
-hour16El = dayjs().hour(16).format('H')
-
-function colorRows() {
-  if (rightNow < hour8El) {
-    $(hour8El).addClass(past)
-  } else if (rightNow > hour8El) {
-    $(hour8El).addClass(present)
-  } else {
-    $(hour8El).addClass(future)
-  }
-}
-
 
 
 // var workHours = [
@@ -36,29 +26,40 @@ function colorRows() {
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-function displayDateAndTime(){
-  var todaysDate = dayjs().format('dddd, MMMM D | h:m a')
-  dateDisplayEl.text(todaysDate)
-}
-
-function colorRows() {
-  if (rightNow < hour8El) {
-    $(hour8El).addClass(past)
-  } else if (rightNow > hour8El) {
-    $(hour8El).addClass(present)
-  } else {
-    $(hour8El).addClass(future)
-  }
-}
-
-console.log(rightNow > hour8El)
-console.log(rightNow < hour8El)
-console.log(rightNow == hour8El)
 
 $(function () {
 
+  function displayDateAndTime() {
+    var todaysDate = dayjs().format('dddd, MMMM D | h:m a')
+    dateDisplayEl.text(todaysDate)
+  }
 
-  
+  function colorRows() {
+    var blockHour = parseInt(
+      $(hour8El).attr('id').split('-')[1]
+    )
+
+    console.log(blockHour)
+
+    if (blockHour < rightNow) {
+      $(hour8El).addClass("past")
+    } else if (blockHour === rightNow) {
+      $(hour8El).removeClass("past")
+      $(hour8El).addClass("present")
+    } else {
+      $(hour8El).removeClass('past')
+      $(hour8El).removeClass('present')
+      $(hour8El).addClass('future')
+    }
+    console.log(blockHour)
+
+
+  }
+
+
+
+
+
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -76,7 +77,8 @@ $(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
 
+  colorRows()
+  displayDateAndTime();
+
 });
 
-colorRows()
-displayDateAndTime();
