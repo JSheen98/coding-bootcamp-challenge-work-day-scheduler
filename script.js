@@ -1,64 +1,55 @@
-var past = $('.past')
-var present = $('.present')
-var future = $('.future')
-
-
 var dateDisplayEl = $('#currentDay')
+var timeDisplayEl = $('#currentTime')
 var rightNow = dayjs().format('H')
-var timeBlockEl = $('.hour-9')
-var hour8El = $('#hour-8')
-var hour12El = $('#hour-12')
-var hour16El = $('#hour-16')
 
+var workHours = [
+  hour8El = $('#hour-8'),
+  hour9El = $('#hour-9'),
+  hour10El = $('#hour-10'),
+  hour11El = $('#hour-11'),
+  hour12El = $('#hour-12'),
+  hour13El = $('#hour-13'),
+  hour14El = $('#hour-14'),
+  hour15El = $('#hour-15'),
+  hour16El = $('#hour-16')
+]
 
-// var workHours = [
-//   hour8 = dayjs().hour(8).format('H'),
-//   hour9 = dayjs().hour(9).format('H'),
-//   hour10 = dayjs().hour(10).format('H'),
-//   hour11 = dayjs().hour(11).format('H'),
-//   hour12 = dayjs().hour(12).format('H'),
-//   hour13 = dayjs().hour(13).format('H'),
-//   hour14 = dayjs().hour(14).format('H'),
-//   hour15 = dayjs().hour(15).format('H'),
-//   hour16 = dayjs().hour(16).format('H')
-// ]
-
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-
+// (document).ready() function to ensure the page loads first before any jQuery starts functioning
 $(function () {
 
+  // Function that displays the date and time at the top of the page
   function displayDateAndTime() {
-    var todaysDate = dayjs().format('dddd, MMMM D | h:m a')
+    var todaysDate = dayjs().format('📅 dddd, MMMM D')
+    var currentTimeDisplay = dayjs().format('🕗 h:m a')
+    timeDisplayEl.text(currentTimeDisplay)
     dateDisplayEl.text(todaysDate)
   }
 
+  // Function that loops through the workHours array, and sets the color theme for the hour block depending on the added class (past, present, or future)
   function colorRows() {
-    var blockHour = parseInt(
-      $(hour8El).attr('id').split('-')[1]
-    )
 
-    console.log(blockHour)
-
-    if (blockHour < rightNow) {
-      $(hour8El).addClass("past")
-    } else if (blockHour === rightNow) {
-      $(hour8El).removeClass("past")
-      $(hour8El).addClass("present")
-    } else {
-      $(hour8El).removeClass('past')
-      $(hour8El).removeClass('present')
-      $(hour8El).addClass('future')
+    for (var i = 0; i < workHours.length; i++) {
+      var blockHour = parseInt(
+        $(workHours[i]).attr('id').split('-')[1]
+      )
+      if (blockHour < rightNow) {
+        $(workHours[i]).addClass('past')
+      } else if (blockHour == rightNow) {
+        $(workHours[i]).removeClass('past')
+        $(workHours[i]).addClass('present')
+      } else {
+        $(workHours[i]).removeClass('past')
+        $(workHours[i]).removeClass('present')
+        $(workHours[i]).addClass('future')
+      }
     }
-    console.log(blockHour)
-
-
   }
 
-
-
-
+  // Function to save input text to local storage
+  function saveText() {
+    
+    
+  }
 
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -66,12 +57,6 @@ $(function () {
   // function? How can DOM traversal be used to get the "hour-x" id of the
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
